@@ -10,7 +10,7 @@ namespace SoftwareUsingSDK
 
             Console.WriteLine(LibraryUsing_SDK.MySDK.Action());
 
-
+            Console.WriteLine(SKM.V3.Methods.Helpers.GetAssemblyHash());
             Console.ReadLine();
         }
     }

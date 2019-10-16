@@ -20,8 +20,13 @@ namespace AssemblySignerGUI
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-
+                textBox2.Text = openFileDialog1.FileName;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

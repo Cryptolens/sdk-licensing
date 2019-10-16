@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Reference Include="Cryptolens.Licensing">
-      <HintPath>..\..\SKGL-Extension-for-dot-NET\Cryptolens.Licensing\bin\Release\netstandard2.0\Cryptolens.Licensing.dll</HintPath>
+      <HintPath>..\..\..\SKGL-Extension-for-dot-NET\Cryptolens.Licensing\bin\Debug\netstandard2.0\Cryptolens.Licensing.dll</HintPath>
     </Reference>
     <Reference Include="SDK">
       <HintPath>..\SDK\bin\Debug\netstandard2.0\SDK.dll</HintPath>

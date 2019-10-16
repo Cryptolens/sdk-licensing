@@ -7,6 +7,7 @@ using SKM.V3.Models;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace AssemblySigner
 {
@@ -30,8 +31,6 @@ namespace AssemblySigner
 
             string asmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            // TODO: error handling
-
             VendorConfig vendorConfig;
 
             try
@@ -43,7 +42,6 @@ namespace AssemblySigner
                 Console.WriteLine("Error: could not find config.json. Please contact the vendor.");
                 return;
             }
-            //JsonConvert.DeserializeObject()
 
             string pathToUserConfig = Path.Combine(asmDir, "build.json");
 
@@ -52,17 +50,72 @@ namespace AssemblySigner
                 pathToUserConfig = args[0];
             }
 
-            var userConfig = JsonConvert.DeserializeObject<UserConfig>(pathToUserConfig);
+            var userConfig = JsonConvert.DeserializeObject<UserConfig>(System.IO.File.ReadAllText(pathToUserConfig));
 
             if(userConfig.Assemblies == null || userConfig.Assemblies.Count == 0)
             {
-                Console.WriteLine("Error: no assembly paths specified.");
+                Console.WriteLine("Error: No assembly paths specified.");
                 return;
+            }
+
+            SHA512 sha = SHA512.Create();
+
+            var response = Key.Activate(vendorConfig.ActivateToken, new ActivateModel { ProductId = vendorConfig.ProductId, Key = userConfig.Key, MachineCode =  Helpers.GetMachineCodePI() });
+
+            if (!Helpers.IsSuccessful(response))
+            {
+                Console.WriteLine($"Error: Could not activate the following device, {(response != null ? response.Message : "")}. Please contact the vendor to increase the number of end users for this license key.");
+                return;
+            }
+
+            long dObjId = -1;
+            foreach (var dObj in response.LicenseKey.DataObjects)
+            {
+                if (dObj.Name == "cryptolens_assemblyhash")
+                {
+                    dObjId = dObj.Id;
+                    break;
+                }
+            }
+
+            if (dObjId == -1)
+            {
+                var dObjRes = Data.AddDataObject(vendorConfig.DataObjectToken, new AddDataObjectToKeyModel
+                {
+                    Name = "cryptolens_assemblyhash",
+                    ProductId = vendorConfig.ProductId,
+                    StringValue = "",
+                    Key = userConfig.Key,
+                    CheckForDuplicates = true
+                });
+
+                if (!Helpers.IsSuccessful(dObjRes))
+                {
+                    Console.WriteLine($"Warning: Could not add data object, '{(dObjRes != null ? dObjRes.Message : "")}'.");
+                }
+                else
+                {
+                    dObjId = dObjRes.Id;
+                }
             }
 
             foreach (var path in userConfig.Assemblies)
             {
+                if(string.IsNullOrEmpty(path) || !File.Exists(path))
+                {
+                    Console.WriteLine($"Warning: incorrect path, '{path}'. Ignoring it.");
+                    continue;
+                }
+                var dir = Path.GetDirectoryName(path);
 
+                using (var stream = File.OpenRead(path))
+                {
+                    var sig = Convert.ToBase64String(sha.ComputeHash(stream));
+                    Data.SetStringValue(vendorConfig.DataObjectToken, new ChangeStringValueToKeyModel { Id = dObjId, Key= userConfig.Key, ProductId = vendorConfig.ProductId, StringValue = sig  } );
+                    var cert = Key.Activate(vendorConfig.ActivateToken, vendorConfig.ProductId, userConfig.Key, Helpers.GetMachineCodePI());
+                    var certName = Path.Combine(dir, Path.GetFileName(path) + ".skm");
+                    File.WriteAllText(certName, JsonConvert.SerializeObject(cert));
+                }
             }
 
             Console.ReadLine();

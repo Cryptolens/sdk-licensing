@@ -8,6 +8,7 @@ namespace AssemblySigner
     public class VendorConfig
     {
         public int ProductId { get; set; }
-        public string Token { get; set; }
+        public string ActivateToken { get; set; }
+        public string DataObjectToken { get; set; }
     }
 }

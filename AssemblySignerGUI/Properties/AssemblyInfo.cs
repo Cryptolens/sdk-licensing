@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AssemblySignerGUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Cryptolens AB")]
 [assembly: AssemblyProduct("AssemblySignerGUI")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © 2019 Cryptolens AB")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

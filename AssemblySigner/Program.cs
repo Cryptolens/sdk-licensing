@@ -115,6 +115,8 @@ namespace AssemblySigner
                     var cert = Key.Activate(vendorConfig.ActivateToken, vendorConfig.ProductId, userConfig.Key, Helpers.GetMachineCodePI());
                     var certName = Path.Combine(dir, Path.GetFileName(path) + ".skm");
                     File.WriteAllText(certName, JsonConvert.SerializeObject(cert));
+
+                    Console.WriteLine($"Assembly {path} was successfully signed.");
                 }
             }
 

@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cryptolens.Licensing">
+      <HintPath>..\..\..\SKGL-Extension-for-dot-NET\Cryptolens.Licensing\bin\Debug\netstandard2.0\Cryptolens.Licensing.dll</HintPath>
+    </Reference>
     <Reference Include="SDK">
       <HintPath>..\SDK\bin\Debug\netstandard2.0\SDK.dll</HintPath>
     </Reference>

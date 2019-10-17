@@ -118,7 +118,7 @@ namespace AssemblySigner
                 }
             }
 
-            Console.ReadLine();
+            Console.WriteLine("Process complete.");
         }
     }
 }

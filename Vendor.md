@@ -15,7 +15,7 @@ The *certificate* is just the response from a `Key.Activate` call, so you can ex
 
 ## Getting started
 
-Two steps are necessary to protect your SDK. First, we need to configure the Assembly Signer so that you customers (i.e. the developers) can use it to sign their applications (that use the SDK). Secondly, we need to verify the signature inside in the SDK to make sure only developers that have paid for it can access its methods.
+Two steps are necessary to protect your SDK. First, we need to configure the Assembly Signer so that your customers (i.e. the developers) can use it to sign their applications (that use the SDK). Secondly, we need to verify the signature inside in the SDK to make sure only developers that have paid for it can access its methods.
 
 ### Configuring Assembly Signer
 The Assembly Signer is available as pre-built binaries [here](https://github.com/Cryptolens/sdk-licensing/releases). You can also compile it from source. To set up the Assembly Signer, you need to create a `config.json` file in the same folder as the executable (either the command-line version or the GUI). It will look similar to the one below:

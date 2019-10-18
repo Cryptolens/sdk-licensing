@@ -22,11 +22,11 @@ namespace AssemblySigner
             Console.WriteLine($"This tool helps you to automatically sign multiple assemblies.\n" +
                               $"All configurations about where these assemblies are located should \n" +
                               $"be put into build.json in the same folder as this file. If you want\n" +
-                              $"to read build.json from a different folder, please supply ir as an\n" +
+                              $"to read build.json from a different folder, please supply it as an\n" +
                               $"argument to this application. This file should also have a valid \n" +
                               $"license key supplied.\n\n" +
                               $"For more information, please check \n" +
-                              $" > https://github.com/cryptolens/sdk-licensing");
+                              $" > https://github.com/Cryptolens/sdk-licensing/blob/master/Developer.md");
             Console.WriteLine("--------------------------------------------------------------------\n");
 
             string asmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

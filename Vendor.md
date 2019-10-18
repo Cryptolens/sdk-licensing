@@ -11,6 +11,8 @@ Starting from [Cryptolens.Licensing](https://github.com/cryptolens/cryptolens-do
 
 The *certificate* is just the response from a `Key.Activate` call, so you can extract the original license key and check things like features, when it expires, etc.
 
+![](/Images/sdk-ex.png)
+
 ## Getting started
 
 Two steps are necessary to protect your SDK. First, we need to configure the Assembly Signer so that you customers (i.e. the developers) can use it to sign their applications (that use the SDK). Secondly, we need to verify the signature inside in the SDK to make sure only developers that have paid for it can access its methods.

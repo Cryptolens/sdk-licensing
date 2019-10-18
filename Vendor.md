@@ -13,6 +13,8 @@ The *certificate* is just the response from a `Key.Activate` call, so you can ex
 
 ## Getting started
 
+Two steps are necessary to protect your SDK. First, we need to configure the Assembly Signer so that you customers (i.e. the developers) can use it to sign their applications (that use the SDK). Secondly, we need to verify the signature inside in the SDK to make sure only developers that have paid for it can access its methods.
+
 ### Configuring Assembly Signer
 To set up the Assembly Signer, you need to create a `config.json` file in the same folder as the executable (either the command-line version or the GUI). It will look similar to the one below:
 
@@ -31,4 +33,21 @@ When creating the [access tokens](https://app.cryptolens.io/User/AccessToken#/),
 
 > **Note**: please create a separate access token for `ActivateToken` and `DataObjectToken`.
 
-### Verifying authenticity 
+### Verifying the entry assembly
+To verify that the assembly has been signed properly, you can call the [VerifySDKLicenseCertificate()](https://help.cryptolens.io/api/dotnet/api/SKM.V3.Methods.Helpers.html#SKM_V3_Methods_Helpers_VerifySDKLicenseCertificate_System_String_) method with your RSA Public Key, as shown below.
+
+```cs
+string RSA = "RSA Pub key";
+if(Helpers.VerifySDKLicenseCertificate(RSA) != null)
+{
+    // all ok.
+}
+else 
+{
+    // signature incorrect.
+}
+```
+
+The [VerifySDKLicenseCertificate()](https://help.cryptolens.io/api/dotnet/api/SKM.V3.Methods.Helpers.html#SKM_V3_Methods_Helpers_VerifySDKLicenseCertificate_System_String_) method will return a [LicenseKey](https://help.cryptolens.io/api/dotnet/api/SKM.V3.LicenseKey.html) object if the verification succeeded or null otherwise. The license key object is especially useful if you offer different features inside your SDK. In some cases, you might want to check the license status with the server, in which case you can use the license key object to extract the license key string.
+
+If developers would get problems with the verification, i.e. that `VerifySDKLicenseCertificate` does not find a valid certificate, you can check with them which assembly they sign. `VerifySDKLicenseCertificate` will validate the certificate of the entry assembly, i.e. the first assembly that triggered the call to a method in your SDK. In this way, developers cannot create another SDK around yours to bypass verification.

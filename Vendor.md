@@ -53,3 +53,6 @@ else
 The [VerifySDKLicenseCertificate()](https://help.cryptolens.io/api/dotnet/api/SKM.V3.Methods.Helpers.html#SKM_V3_Methods_Helpers_VerifySDKLicenseCertificate_System_String_) method will return a [LicenseKey](https://help.cryptolens.io/api/dotnet/api/SKM.V3.LicenseKey.html) object if the verification succeeded or null otherwise. The license key object is especially useful if you offer different features inside your SDK. In some cases, you might want to check the license status with the server, in which case you can use the license key object to extract the license key string.
 
 If developers would get problems with the verification, i.e. that `VerifySDKLicenseCertificate` does not find a valid certificate, you can check with them which assembly they sign. `VerifySDKLicenseCertificate` will validate the certificate of the entry assembly, i.e. the first assembly that triggered the call to a method in your SDK. In this way, developers cannot create another SDK around yours to bypass verification.
+
+## Demo project
+We have a demo project that you can run to test things out, available [here](https://github.com/Cryptolens/sdk-licensing/tree/master/Example).

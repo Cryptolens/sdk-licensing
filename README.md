@@ -14,3 +14,7 @@ Please select what fits best:
 
 * [I'm a vendor](Vendor.md)
 * [I'm a developer](Developer.md)
+
+## Questions
+If you have any questions, please reach out to us at support@cryptolens.io!
+

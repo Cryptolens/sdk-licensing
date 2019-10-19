@@ -99,6 +99,8 @@ namespace AssemblySigner
                 }
             }
 
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(pathToUserConfig));
+
             foreach (var path in userConfig.Assemblies)
             {
                 if(string.IsNullOrEmpty(path) || !File.Exists(path))

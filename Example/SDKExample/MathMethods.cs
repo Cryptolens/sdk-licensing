@@ -8,40 +8,44 @@ namespace SDKExample
     {
         private Dictionary<string, bool> permittedMethods = new Dictionary<string, bool>();
 
-        public MathMethods(string licenseKey)
+        public MathMethods()
         {
-
-
+            if (!licenseCheck())
+            {
+                // error occurred when verifying the license.
+                throw new ArgumentException("License verification failed.");
+            }
         }
 
-        public bool Status()
+        private bool licenseCheck()
         {
             string RSA = "<RSAKeyValue><Modulus>sGbvxwdlDbqFXOMlVUnAF5ew0t0WpPW7rFpI5jHQOFkht/326dvh7t74RYeMpjy357NljouhpTLA3a6idnn4j6c3jmPWBkjZndGsPL4Bqm+fwE48nKpGPjkj4q/yzT4tHXBTyvaBjA8bVoCTnu+LiC4XEaLZRThGzIn5KQXKCigg6tQRy0GXE13XYFVz/x1mjFbT9/7dS8p85n8BuwlY5JvuBIQkKhuCNFfrUxBWyu87CFnXWjIupCD2VO/GbxaCvzrRjLZjAngLCMtZbYBALksqGPgTUN7ZM24XbPWyLtKPaXF2i4XRR9u6eTj5BfnLbKAU5PIVfjIS+vNYYogteQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
-            return SKM.V3.Methods.Helpers.VerifySDKLicenseCertificate(Assembly.GetCallingAssembly(),RSA, null, null);
+            var license = SKM.V3.Methods.Helpers.VerifySDKLicenseCertificate(RSA);
+
+            if(license == null)
+            {
+                return false;
+            }
+
+            // everything went fine if we are here!
+            permittedMethods = new Dictionary<string, bool>();
+
+            if (license.F5)
+            {
+                permittedMethods.Add("Abs", true);
+            }
+            if (license.F6)
+            {
+                permittedMethods.Add("Factorial", true);
+            }
+            if (license.F7)
+            {
+                permittedMethods.Add("Fibonacci", true);
+            }
+
+            return true;
+
         }
-
-        //private bool licenseCheck(string licenseKey)
-        //{
- 
-        //        // everything went fine if we are here!
-        //        permittedMethods = new Dictionary<string, bool>();
-
-        //        if (result.LicenseKey.F5)
-        //        {
-        //            permittedMethods.Add("Abs", true);
-        //        }
-        //        if (result.LicenseKey.F6)
-        //        {
-        //            permittedMethods.Add("Factorial", true);
-        //        }
-        //        if (result.LicenseKey.F7)
-        //        {
-        //            permittedMethods.Add("Fibonacci", true);
-        //        }
-
-          
-
-        //}
 
         /// <summary>
         /// Compute the absolute value of a number
